@@ -14,7 +14,7 @@ locals {
 }
 
 inputs = {
-  account_name              = local.account_name
+  account_name = local.account_name
 }
 
 generate "variables" {
