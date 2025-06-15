@@ -1,0 +1,123 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "infrastructure-tests"
+version = "0.1.0"
+description = "Infrastructure tests for AWS multi-account setup"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+  {name = "mindbuttergold"}
+]
+maintainers = [
+  {name = "mindbuttergold"}
+]
+classifiers = [
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3 :: Only",
+  "Typing :: Typed",
+]
+dependencies = [
+  "uv>=0.1.12",
+  "python-hcl2>=4.3.0",
+  "types-PyYAML>=6.0.0",
+  "ruff>=0.3.0",
+  "mypy>=1.3.0",
+  "pytest>=7.3.0",
+  "pytest-cov>=4.1.0",
+]
+
+[tool.hatch.envs.env]
+name = "env"
+features = []
+
+[tool.hatch.build]
+packages = ["."]
+exclude = ["setup-scripts/"]
+
+[tool.hatch.build.targets.wheel]
+only-include = ["."]
+
+[tool.hatch.envs.env.scripts]
+install-infra-deps = "uv pip install -r requirements.lock"
+lint-infra = "ruff format --check && ruff check --fix test_infrastructure.py && mypy test_infrastructure.py"
+test-infra = "pytest test_infrastructure.py -v"
+
+[tool.ruff]
+line-length = 120
+indent-width = 2
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "N",   # pep8-naming
+  "UP",  # pyupgrade (modernize Python code)
+  "B",   # flake8-bugbear (finds likely bugs)
+  "C",   # flake8-comprehensions (better list/dict comprehensions)
+  "DTZ", # flake8-datetimez (datetime best practices)
+  "EM",  # flake8-errmsg (better error messages)
+  "ICN", # flake8-import-conventions (import naming)
+  "ISC", # flake8-implicit-str-concat
+  "G",   # flake8-logging-format
+  "PIE", # flake8-pie (misc. Python improvements)
+  "PT",  # flake8-pytest-style
+  "RET", # flake8-return (check return values)
+  "SIM", # flake8-simplify
+  "TID", # flake8-tidy-imports
+  "TCH", # flake8-type-checking
+  "RUF", # Ruff-specific rules
+  "PL",  # Pylint
+  "TRY", # tryceratops (better try/except)
+]
+fixable = ["ALL"]
+typing-modules = ["typing", "types", "typing_extensions", "mypy_extensions"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["utils"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "pydantic.*"
+
+[tool.coverage.run]
+source = ["."]
+omit = ["setup-scripts/*", "setup-scripts/**/*"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=. --cov-report=term-missing"
+python_files = "*_test.py"
+testpaths = ["test_infrastructure.py"]
