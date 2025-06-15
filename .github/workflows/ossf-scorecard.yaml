@@ -1,0 +1,30 @@
+name: OSSF Scorecard
+on:
+  schedule:
+    - cron: '0 5 * * 1' # Every Sunday at 10pm MST (5:00 UTC)
+  push:
+    branches: [ "main" ]
+
+permissions: read-all
+
+jobs:
+  analysis:
+    name: Scorecard analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      id-token: write
+
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: "Run analysis"
+        uses: ossf/scorecard-action@v2.4.2
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          repo_token: ${{ secrets.OSSF_SCORECARD_TOKEN }}
+          publish_results: true
