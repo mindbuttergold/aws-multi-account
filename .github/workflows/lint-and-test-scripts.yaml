@@ -2,8 +2,13 @@ name: Lint and Test Setup Scripts
 
 on: 
   pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened]
+    types: 
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
 
 jobs:
   lint-and-test-setup-scripts:
