@@ -3,7 +3,6 @@ locals {
   terragrunt_version = "~> 0.81.6"
 
   account_details = read_terragrunt_config("${get_terragrunt_dir()}/account_details.hcl")
-  versions        = read_terragrunt_config(find_in_parent_folders("versions.hcl"))
 
   account_name              = local.account_details.locals.account_name
   account_id                = local.account_details.locals.account_id
