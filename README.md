@@ -1,6 +1,6 @@
 # aws-multi-account
 
-[![CodeQL](https://github.com/mindbuttergold/template-repo/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/mindbuttergold/aws-multi-account/actions/workflows/github-code-scanning/codeql) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/mindbuttergold/aws-multi-account/badge)](https://scorecard.dev/viewer/?uri=github.com/mindbuttergold/aws-multi-account) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10740/badge)](https://www.bestpractices.dev/projects/10740)
+[![CodeQL](https://github.com/mindbuttergold/template-repo/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/mindbuttergold/aws-multi-account/actions/workflows/github-code-scanning/codeql) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/mindbuttergold/aws-multi-account/badge)](https://scorecard.dev/viewer/?uri=github.com/mindbuttergold/aws-multi-account) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10761/badge)](https://www.bestpractices.dev/projects/10761)
 
 This repository demonstrates the setup of an AWS multi-account model with recommended Organization Units, via Infrastructure as Code (IAC) via Terraform and Terragrunt.
 
