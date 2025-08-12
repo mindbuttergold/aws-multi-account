@@ -36,11 +36,9 @@ jobs:
           terraform_version: ${{ steps.get-versions.outputs.terraform_version }}
 
       - name: Setup Terragrunt
-        run: |
-          wget -q https://github.com/gruntwork-io/terragrunt/releases/download/v${{ steps.get-versions.outputs.terragrunt_version }}/terragrunt_linux_amd64 -O /tmp/terragrunt
-          chmod +x /tmp/terragrunt
-          sudo mv /tmp/terragrunt /usr/local/bin/terragrunt
-          terragrunt --version
+        uses: gruntwork-io/terragrunt-action@v3
+        with:
+          tg_version: ${{ steps.get-versions.outputs.terragrunt_version }}
 
       - name: Setup Terraform and Terragrunt Cache
         uses: actions/cache@v4
