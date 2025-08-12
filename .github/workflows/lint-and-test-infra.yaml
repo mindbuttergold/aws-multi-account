@@ -39,6 +39,7 @@ jobs:
         uses: gruntwork-io/terragrunt-action@v3
         with:
           tg_version: ${{ steps.get-versions.outputs.terragrunt_version }}
+          tf_path: "terraform"
 
       - name: Setup Terraform and Terragrunt Cache
         uses: actions/cache@v4
