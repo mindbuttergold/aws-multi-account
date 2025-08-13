@@ -1,78 +1,13 @@
-name: Check PR Thumbs Up and Manage Labels
-
+name: check-pr-thumbs-up
 on:
   schedule:
     - cron: '0 5 * * *'   # Runs daily at 10:00 PM MST (5:00 AM UTC next day)
     - cron: '0 13 * * *'  # Runs daily at 6:00 AM MST (1:00 PM UTC)  
     - cron: '0 19 * * *'  # Runs daily at 12:00 PM MST (7:00 PM UTC)
-
-permissions:
-  contents: read
+permissions: read-all
 
 jobs:
   check-pr-thumbs-up:
-    runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.LABEL_PRS_TOKEN }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-
-      - name: Get Open PR numbers
-        id: get-open-prs
-        run: |
-          OPEN_PR_NUMS=$(gh api "/repos/${GITHUB_REPOSITORY}/pulls?state=open" -q '.[].number' | tr '\n' ' ' | sed 's/[[:space:]]*$//')
-
-          if [ -z "$OPEN_PR_NUMS" ]; then
-            echo "No open PRs found."
-            exit 0
-          fi
-
-          echo "The following PR numbers are open: $OPEN_PR_NUMS"
-          echo "OPEN_PR_NUMS=$OPEN_PR_NUMS" >> $GITHUB_ENV
-          echo "open_prs=true" >> $GITHUB_OUTPUT
-
-      - name: Get PR Thumbs Up Counts and Manage Labels
-        if: steps.get-open-prs.outputs.open_prs == 'true'
-        run: |
-          OPEN_PR_NUMS="${{ env.OPEN_PR_NUMS }}"
-          eval "set -- $OPEN_PR_NUMS"
-
-          for PR_NUMBER in "$@"; do
-
-            PR_AUTHOR=$(gh api repos/${GITHUB_REPOSITORY}/pulls/$PR_NUMBER --jq '.user.login')
-            
-            THUMBS_UP_COUNT_EXCLUDING_AUTHOR=$(gh api \
-              -H "Accept: application/vnd.github+json" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              "/repos/${GITHUB_REPOSITORY}/issues/$PR_NUMBER/reactions" \
-              -q "[.[] | select(.content == \"+1\" and .user.login != \"$PR_AUTHOR\")] | length")   
-            echo "PR #$PR_NUMBER has $THUMBS_UP_COUNT_EXCLUDING_AUTHOR thumbs up excluding from the author."
-
-            if [ "$THUMBS_UP_COUNT_EXCLUDING_AUTHOR" -ge 5 ]; then
-              echo "Adding 'community-approved' label to PR #$PR_NUMBER."
-              gh api -X POST \
-                -H "Accept: application/vnd.github+json" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                "/repos/${GITHUB_REPOSITORY}/issues/$PR_NUMBER/labels" \
-                -f "labels[]=community-approved" > /dev/null
-            
-            else
-              echo "PR #$PR_NUMBER does not have enough thumbs up reactions."
-
-              HAS_COMMUNITY_APPROVED_LABEL=$(gh api \
-                -H "Accept: application/vnd.github+json" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                "/repos/${GITHUB_REPOSITORY}/issues/$PR_NUMBER/labels" \
-                -q '[.[] | select(.name == "community-approved")] | length')
-              
-              if [ "$HAS_COMMUNITY_APPROVED_LABEL" -gt 0 ]; then
-                echo "PR #$PR_NUMBER has the 'community-approved' label."
-                echo "Removing 'community-approved' label from PR #$PR_NUMBER."
-                gh api -X DELETE \
-                  -H "Accept: application/vnd.github+json" \
-                  -H "X-GitHub-Api-Version: 2022-11-28" \
-                  "/repos/${GITHUB_REPOSITORY}/issues/$PR_NUMBER/labels/community-approved" > /dev/null
-              fi
-            fi
-          done
+    name: check-pr-thumbs-up
+    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/check-pr-thumbs-up.yaml@v1.0.0
+    secrets: inherit
