@@ -1,38 +1,17 @@
-name: Semver Release
+name: semver-release
 on:
   push:
     branches:
       - main
-
-permissions:
-  contents: read
+permissions: read-all
 
 jobs:
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-
+  semver-release:
+    name: semver-release
     permissions:
       contents: write
       issues: write
       pull-requests: write
       id-token: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-
-      - name: Install Conventional Commits Preset Dependency
-        run: npm i conventional-changelog-conventionalcommits@v9 -D
-
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release@24
+    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/semver-release.yaml@v1.0.0
+    secrets: inherit
