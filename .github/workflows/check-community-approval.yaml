@@ -12,5 +12,5 @@ permissions: read-all
 jobs:
   check-community-approval:
     name: check-community-approval
-    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/check-community-approval.yaml@v1.0.0
+    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/check-community-approval.yaml@v2.0.0
     secrets: inherit

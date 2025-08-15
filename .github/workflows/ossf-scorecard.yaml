@@ -12,5 +12,5 @@ jobs:
     permissions:
       security-events: write
       id-token: write
-    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/ossf-scorecard.yaml@v1.0.0
+    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/ossf-scorecard.yaml@v2.0.0
     secrets: inherit

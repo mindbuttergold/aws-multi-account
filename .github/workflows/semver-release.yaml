@@ -13,5 +13,5 @@ jobs:
       issues: write
       pull-requests: write
       id-token: write
-    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/semver-release.yaml@v1.0.0
+    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/semver-release.yaml@v2.0.0
     secrets: inherit

@@ -9,5 +9,5 @@ permissions: read-all
 jobs:
   check-pr-thumbs-up:
     name: check-pr-thumbs-up
-    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/check-pr-thumbs-up.yaml@v1.0.0
+    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/check-pr-thumbs-up.yaml@v2.0.0
     secrets: inherit
