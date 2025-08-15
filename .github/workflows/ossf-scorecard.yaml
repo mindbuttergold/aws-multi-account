@@ -1,7 +1,5 @@
 name: ossf-scorecard
 on:
-  schedule:
-    - cron: '0 5 * * 1' # Every Sunday at 10pm MST (5:00 UTC)
   push:
     branches: [ "main" ]
 permissions: read-all
@@ -12,5 +10,4 @@ jobs:
     permissions:
       security-events: write
       id-token: write
-    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/ossf-scorecard.yaml@v1.0.0
-    secrets: inherit
+    uses: mindbuttergold/github-actions-reusable-workflows/.github/workflows/ossf-scorecard.yaml@v2
