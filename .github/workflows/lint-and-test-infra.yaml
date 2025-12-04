@@ -18,7 +18,7 @@ jobs:
         python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       
       - name: Get Terraform and Terragrunt Versions
         id: get-versions
@@ -51,7 +51,7 @@ jobs:
           key: ${{ runner.os }}-tf-tg-${{ steps.get-versions.outputs.terraform_version }}-${{ steps.get-versions.outputs.terragrunt_version }}
           
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
