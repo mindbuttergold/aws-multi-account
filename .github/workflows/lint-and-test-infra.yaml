@@ -31,7 +31,7 @@ jobs:
           echo "terragrunt_version=$TERRAGRUNT_VERSION" >> $GITHUB_OUTPUT
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ steps.get-versions.outputs.terraform_version }}
 
